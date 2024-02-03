@@ -1,0 +1,4 @@
+../Core/UserCode/Serial/serial.c:17:6:serial_init	1
+../Core/UserCode/Serial/serial.c:21:6:serial_write_com	2
+../Core/UserCode/Serial/serial.c:37:6:serial_handle	1
+../Core/UserCode/Serial/serial.c:47:6:HAL_UART_RxCpltCallback	3

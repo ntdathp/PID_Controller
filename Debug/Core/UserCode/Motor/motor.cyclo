@@ -1,0 +1,6 @@
+../Core/UserCode/Motor/motor.c:4:6:motor_init	1
+../Core/UserCode/Motor/motor.c:15:6:motor_reset	1
+../Core/UserCode/Motor/motor.c:23:6:motor_set_duty	2
+../Core/UserCode/Motor/motor.c:36:6:motor_read_encoder	1
+../Core/UserCode/Motor/motor.c:43:6:motor_set_velocity	1
+../Core/UserCode/Motor/motor.c:48:6:motor_set_position	1
