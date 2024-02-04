@@ -1,20 +1,20 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * @file           : main.c
-  * @brief          : Main program body
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2023 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file           : main.c
+ * @brief          : Main program body
+ ******************************************************************************
+ * @attention
+ *
+ * Copyright (c) 2023 STMicroelectronics.
+ * All rights reserved.
+ *
+ * This software is licensed under terms that can be found in the LICENSE file
+ * in the root directory of this software component.
+ * If no LICENSE file comes with this software, it is provided AS-IS.
+ *
+ ******************************************************************************
+ */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
@@ -52,16 +52,15 @@ Motor_t tmotor;
 PID_CONTROL_t tpid;
 PROCESS_t tprocess = 0;
 
+extern uint8_t urx_buff[MAX_LEN];
+extern uint8_t utx_buff[MAX_LEN];
+extern char scmd[4];
+extern float dkp;
+extern float dki;
+extern float dkd;
+extern float dset_point;
 
-extern uint8_t  urx_buff[MAX_LEN];
-extern uint8_t  utx_buff[MAX_LEN];
-extern char     scmd[4];
-extern float    dkp;
-extern float	dki;
-extern float	dkd;
-extern float	dset_point;
-
-int				itick;
+int itick;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -76,9 +75,9 @@ void SystemClock_Config(void);
 /* USER CODE END 0 */
 
 /**
-  * @brief  The application entry point.
-  * @retval int
-  */
+ * @brief  The application entry point.
+ * @retval int
+ */
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -120,64 +119,64 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-		  	        if(!strcmp(scmd,"SPID"))
-		  	        {
-		  	          tprocess = SPID;
-		  	        }
-		  	        else if(!strcmp(scmd,"VTUN"))
-		  	        {
-		  	          tprocess = VTUN;
-		  	        }
-		  	        else if(!strcmp(scmd,"PTUN"))
-		  	        {
-		  	          tprocess = PTUN;
-		  	        }
-		  	      else if(!strcmp(scmd,"STOP"))
-		  	       {
-		  	      	 tprocess = STOP;
-		  	       }
-		  	        else
-		  	        {
-		  	          tprocess = NONE;
-		  	        }
-	  switch(tprocess)
-	 	  	      {
-	 	  	        case NONE:
-	 	  	        	itick = HAL_GetTick();
-	 	  	        	if(!(itick % THOUSAND) )
-	 	  	        	serial_write_com("NONE", ZERO);
-	 	  	          break;
-	 	  	        case SPID:
-	 	  	        	pid_tunning_set(&tpid, dkp, dki, dkd);
-	 	  	        	tprocess = NONE;
-	 	  	          break;
-	 	  	        case VTUN:
-	 	  	        	break;
-	 	  	        case PTUN:
-	 	  	        	break;
-	 	  	        case STOP:
-	 	  	        	motor_reset(&tmotor);
-	 	  	        	motor_set_duty(0);
-	 	  	        	pid_reset(&tpid);
-	 	  	        	tprocess = NONE;
-	 	  	        	break;
-	 	  	      }
- }
+    if (!strcmp(scmd, "SPID"))
+    {
+      tprocess = SPID;
+    }
+    else if (!strcmp(scmd, "VTUN"))
+    {
+      tprocess = VTUN;
+    }
+    else if (!strcmp(scmd, "PTUN"))
+    {
+      tprocess = PTUN;
+    }
+    else if (!strcmp(scmd, "STOP"))
+    {
+      tprocess = STOP;
+    }
+    else
+    {
+      tprocess = NONE;
+    }
+    switch (tprocess)
+    {
+    case NONE:
+      itick = HAL_GetTick();
+      if (!(itick % THOUSAND))
+        serial_write_com("NONE", ZERO);
+      break;
+    case SPID:
+      pid_tunning_set(&tpid, dkp, dki, dkd);
+      tprocess = NONE;
+      break;
+    case VTUN:
+      break;
+    case PTUN:
+      break;
+    case STOP:
+      motor_reset(&tmotor);
+      motor_set_duty(0);
+      pid_reset(&tpid);
+      tprocess = NONE;
+      break;
+    }
+  }
   /* USER CODE END 3 */
 }
 
 /**
-  * @brief System Clock Configuration
-  * @retval None
-  */
+ * @brief System Clock Configuration
+ * @retval None
+ */
 void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
   /** Initializes the RCC Oscillators according to the specified parameters
-  * in the RCC_OscInitTypeDef structure.
-  */
+   * in the RCC_OscInitTypeDef structure.
+   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
@@ -191,9 +190,8 @@ void SystemClock_Config(void)
   }
 
   /** Initializes the CPU, AHB and APB buses clocks
-  */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+   */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
@@ -208,35 +206,35 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-	  if(htim->Instance == INTERUPT_TIMER_INSTANCE)
-	  {
-		  switch(tprocess)
-		  	 	  	      {
-		  	 	  	        case NONE:
-		  	 	  	          break;
-		  	 	  	        case SPID:
-		  	 	  	          break;
-		  	 	  	        case VTUN:
-		  	 	  	        	motor_read_encoder(&tmotor, &htim4);
-		  	 	  	        	motor_set_velocity(&tmotor, &tpid, dset_point);
-		  	 	  	        	serial_write_com(scmd, tmotor.dvelocity);
-		  	 	  	        	break;
-		  	 	  	        case PTUN:
-		  	 	  	        	motor_read_encoder(&tmotor, &htim4);
-		  	 	  	        	motor_set_position(&tmotor, &tpid, dset_point);
-		  	 	  	        	serial_write_com(scmd, tmotor.dposition);
-		  	 	  	        	break;
-		  	 	  	        case STOP:
-		  	 	  	        	break;
-		  	 	  	      }
-	  }
+  if (htim->Instance == INTERUPT_TIMER_INSTANCE)
+  {
+    switch (tprocess)
+    {
+    case NONE:
+      break;
+    case SPID:
+      break;
+    case VTUN:
+      motor_read_encoder(&tmotor, &htim4);
+      motor_set_velocity(&tmotor, &tpid, dset_point);
+      serial_write_com(scmd, tmotor.dvelocity);
+      break;
+    case PTUN:
+      motor_read_encoder(&tmotor, &htim4);
+      motor_set_position(&tmotor, &tpid, dset_point);
+      serial_write_com(scmd, tmotor.dposition);
+      break;
+    case STOP:
+      break;
+    }
+  }
 }
 /* USER CODE END 4 */
 
 /**
-  * @brief  This function is executed in case of error occurrence.
-  * @retval None
-  */
+ * @brief  This function is executed in case of error occurrence.
+ * @retval None
+ */
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
@@ -248,14 +246,14 @@ void Error_Handler(void)
   /* USER CODE END Error_Handler_Debug */
 }
 
-#ifdef  USE_FULL_ASSERT
+#ifdef USE_FULL_ASSERT
 /**
-  * @brief  Reports the name of the source file and the source line number
-  *         where the assert_param error has occurred.
-  * @param  file: pointer to the source file name
-  * @param  line: assert_param error line source number
-  * @retval None
-  */
+ * @brief  Reports the name of the source file and the source line number
+ *         where the assert_param error has occurred.
+ * @param  file: pointer to the source file name
+ * @param  line: assert_param error line source number
+ * @retval None
+ */
 void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */

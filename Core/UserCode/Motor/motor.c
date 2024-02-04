@@ -1,6 +1,5 @@
 #include "motor.h"
 
-
 void motor_init(Motor_t *tmotor, uint32_t ipulse)
 {
     motor_reset(tmotor);
@@ -10,7 +9,6 @@ void motor_init(Motor_t *tmotor, uint32_t ipulse)
     HAL_TIM_Encoder_Start(&ECODER_TIMER, TIM_CHANNEL_2);
     HAL_TIM_PWM_Start(&PWM_TIMER, TIM_CHANNEL_1);
     HAL_TIM_PWM_Start(&PWM_TIMER, TIM_CHANNEL_2);
-
 }
 void motor_reset(Motor_t *tmotor)
 {
@@ -24,13 +22,13 @@ void motor_set_duty(int32_t iduty)
 {
     if (iduty >= 0)
     {
-    	MOTOR1_FORWARD_DUTY_CYCLE_REGISTER = iduty;
-    	MOTOR1_BACKWARD_DUTY_CYCLE_REGISTER = 0;
+        MOTOR1_FORWARD_DUTY_CYCLE_REGISTER = iduty;
+        MOTOR1_BACKWARD_DUTY_CYCLE_REGISTER = 0;
     }
     else
     {
-    	MOTOR1_FORWARD_DUTY_CYCLE_REGISTER = 0;
-    	MOTOR1_BACKWARD_DUTY_CYCLE_REGISTER = iduty;
+        MOTOR1_FORWARD_DUTY_CYCLE_REGISTER = 0;
+        MOTOR1_BACKWARD_DUTY_CYCLE_REGISTER = iduty;
     }
 }
 void motor_read_encoder(Motor_t *tmotor, TIM_HandleTypeDef *htim)
@@ -50,5 +48,3 @@ void motor_set_position(Motor_t *tmotor, PID_CONTROL_t *tpid_ctrl, float dpositi
     tmotor->dreference_position = dposition;
     motor_set_duty((int)pid_compute(tpid_ctrl, tmotor->dreference_position, tmotor->dposition));
 }
-
-

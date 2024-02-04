@@ -108,4 +108,3 @@ float pid_compute(PID_CONTROL_t *tpid_ctrl, float dcmd_value, float dact_value)
 
     return tpid_ctrl->dresult;
 }
-
