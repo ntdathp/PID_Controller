@@ -1,4 +1,0 @@
-../Core/UserCode/PID/pid.c:4:6:pid_reset	16	static
-../Core/UserCode/PID/pid.c:20:6:pid_init	24	static
-../Core/UserCode/PID/pid.c:39:6:pid_tunning_set	24	static
-../Core/UserCode/PID/pid.c:52:7:pid_compute	32	static
