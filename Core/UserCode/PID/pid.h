@@ -2,6 +2,7 @@
 #define INC_PID_H_
 
 #include "stdint.h"
+#include <stdlib.h>
 
 // control PID Structure
 typedef struct

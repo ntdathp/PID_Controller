@@ -18,7 +18,7 @@ typedef struct
 } Motor_t;
 
 void motor_init(Motor_t *tmotor, uint32_t ipulse);
-void motor_reset(Motor_t *motor);
+void motor_reset(Motor_t *tmotor);
 void motor_set_duty(int32_t iduty);
 void motor_read_encoder(Motor_t *tmotor, TIM_HandleTypeDef *htim);
 void motor_set_velocity(Motor_t *tmotor, PID_CONTROL_t *tpid_ctrl, float dvelocity);

@@ -3,6 +3,10 @@
 // reset PID params
 void pid_reset(PID_CONTROL_t *tpid_ctrl)
 {
+	 if (tpid_ctrl == NULL) {
+	        // Handle null pointer error
+	        return;
+	    }
     tpid_ctrl->dlim_max_int = 0.0f;
     tpid_ctrl->dlim_min_int = 0.0f;
 
@@ -19,11 +23,10 @@ void pid_reset(PID_CONTROL_t *tpid_ctrl)
 // init PID
 void pid_init(PID_CONTROL_t *tpid_ctrl, float dkp, float dki, float dkd, float dlimit_max, float dlimit_min, float dts)
 {
-    if (dkp < 0.0f || dki < 0.0f || dkp < 0.0f || dts < 0.0f)
-    {
-        return;
-    }
-
+	if (tpid_ctrl == NULL || dkp < 0.0f || dki < 0.0f || dkd < 0.0f || dts < 0.0f || dlimit_max < dlimit_min) {
+	        // Handle invalid parameters or null pointer error
+	        return;
+	    }
     pid_reset(tpid_ctrl);
     tpid_ctrl->dkp = dkp;
     tpid_ctrl->dki = dki;
@@ -38,10 +41,10 @@ void pid_init(PID_CONTROL_t *tpid_ctrl, float dkp, float dki, float dkd, float d
 // set new PID params
 void pid_tunning_set(PID_CONTROL_t *tpid_ctrl, float dkp, float dki, float dkd)
 {
-    if (dkp < 0.0f || dki < 0.0f || dkp < 0.0f)
-    {
-        return;
-    }
+	 if (tpid_ctrl == NULL || dkp < 0.0f || dki < 0.0f || dkd < 0.0f) {
+	        // Handle invalid parameters or null pointer error
+	        return;
+	    }
 
     tpid_ctrl->dkp = dkp;
     tpid_ctrl->dki = dki;
@@ -51,6 +54,11 @@ void pid_tunning_set(PID_CONTROL_t *tpid_ctrl, float dkp, float dki, float dkd)
 // Compute PID Controllers
 float pid_compute(PID_CONTROL_t *tpid_ctrl, float dcmd_value, float dact_value)
 {
+	   if (tpid_ctrl == NULL) {
+	        // Handle null pointer error
+	        return 0.0f; // or any default value indicating an error
+	    }
+
     // Calculate error value
     tpid_ctrl->derror = dcmd_value - dact_value;
 
@@ -60,9 +68,9 @@ float pid_compute(PID_CONTROL_t *tpid_ctrl, float dcmd_value, float dact_value)
     // I part
     tpid_ctrl->dintergral += 0.5f * tpid_ctrl->dki * tpid_ctrl->dts * (tpid_ctrl->derror + tpid_ctrl->dpre_error);
 
-    // Intergrator anti-wireup
+    // Integrator Anti-windup
 
-    // Update intergral Limits
+    // Update integral Limits
     if (tpid_ctrl->dlim_max > tpid_ctrl->dproportional)
     {
         tpid_ctrl->dlim_max_int = tpid_ctrl->dlim_max - tpid_ctrl->dproportional;
@@ -79,7 +87,7 @@ float pid_compute(PID_CONTROL_t *tpid_ctrl, float dcmd_value, float dact_value)
     {
         tpid_ctrl->dlim_min_int = 0.0f;
     }
-    // Apply intergral limits
+    // Apply integral limits
     if (tpid_ctrl->dintergral > tpid_ctrl->dlim_max_int)
     {
         tpid_ctrl->dintergral = tpid_ctrl->dlim_max_int;
@@ -89,7 +97,7 @@ float pid_compute(PID_CONTROL_t *tpid_ctrl, float dcmd_value, float dact_value)
         tpid_ctrl->dintergral = tpid_ctrl->dlim_min_int;
     }
     // D part
-    tpid_ctrl->dderivative = 2.0f * tpid_ctrl->dkd / tpid_ctrl->dts * (tpid_ctrl->derror - tpid_ctrl->dpre_error) - tpid_ctrl->dderivative;
+    tpid_ctrl->dderivative = 2.0f * tpid_ctrl->dkd / tpid_ctrl->dts * (tpid_ctrl->derror - tpid_ctrl->dpre_error) - (tpid_ctrl->dderivative);
 
     // Compute output and apply limits
     tpid_ctrl->dresult = tpid_ctrl->dproportional + tpid_ctrl->dintergral + tpid_ctrl->dderivative;

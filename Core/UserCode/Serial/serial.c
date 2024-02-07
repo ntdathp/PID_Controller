@@ -16,6 +16,10 @@ void serial_init(void)
 }
 void serial_write_com(char *scmd, float dvalue)
 {
+	 if (scmd == NULL) {
+	        // Handle the case where scmd is nullptr
+	        return;
+	    }
 	char str[MAX_LEN];
 	strcpy(str, scmd);
 
@@ -32,6 +36,10 @@ void serial_write_com(char *scmd, float dvalue)
 }
 void serial_handle(uint8_t *ubuff)
 {
+	 if (ubuff == NULL) {
+	        // Handle the case where ubuff is nullptr
+	        return;
+	    }
 	char str[MAX_LEN];
 	snprintf(str, sizeof(str), "%s", ubuff);
 	sscanf(str, "%s %f %f %f %f", scmd, &dkp, &dki, &dkd, &dset_point);
