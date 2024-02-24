@@ -19,7 +19,7 @@
 #define UART_COM_INSTANCE huart3.Instance
 
 #define PID_CONTROLLER_LIMIT_MAX htim2.Init.Period
-#define PID_CONTROLLER_LIMIT_MIN -htim2.Init.Period
+#define PID_CONTROLLER_LIMIT_MIN -(float)(htim2.Init.Period)
 
 #define INTERUPT_TIMER htim3
 #define INTERUPT_TIMER_INSTANCE htim3.Instance
