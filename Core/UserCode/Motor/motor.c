@@ -2,8 +2,7 @@
 
 void motor_init(Motor_t *tmotor, uint32_t ipulse)
 {
-    if (tmotor == NULL)
-    {
+    if (tmotor == NULL) {
         // Handle null pointer error
         return;
     }
@@ -19,8 +18,7 @@ void motor_init(Motor_t *tmotor, uint32_t ipulse)
 
 void motor_reset(Motor_t *tmotor)
 {
-    if (tmotor == NULL)
-    {
+    if (tmotor == NULL) {
         // Handle null pointer error
         return;
     }
@@ -46,8 +44,7 @@ void motor_set_duty(int32_t iduty)
 }
 void motor_read_encoder(Motor_t *tmotor, TIM_HandleTypeDef *htim)
 {
-    if (tmotor == NULL || htim == NULL)
-    {
+    if (tmotor == NULL || htim == NULL) {
         // Handle null pointer error
         return;
     }
@@ -56,27 +53,4 @@ void motor_read_encoder(Motor_t *tmotor, TIM_HandleTypeDef *htim)
     tmotor->dvelocity = (float)tmotor->icounter / (float)tmotor->ipulse_per_round * NUMBER_OF_DEGREES_ON_A_CIRCLE / SAMPLING_TIME;
     tmotor->dposition += (float)tmotor->icounter / (float)tmotor->ipulse_per_round * NUMBER_OF_DEGREES_ON_A_CIRCLE;
     htim->Instance->CNT = 0;
-}
-void motor_set_velocity(Motor_t *tmotor, PID_CONTROL_t *tpid_ctrl, float dvelocity)
-{
-    if (tmotor == NULL || tpid_ctrl == NULL)
-    {
-        // Handle null pointer error
-        return;
-    }
-
-    tmotor->dreference_velocity = dvelocity;
-    motor_set_duty((int)pid_compute(tpid_ctrl, tmotor->dreference_velocity, tmotor->dvelocity));
-}
-
-void motor_set_position(Motor_t *tmotor, PID_CONTROL_t *tpid_ctrl, float dposition)
-{
-    if (tmotor == NULL || tpid_ctrl == NULL)
-    {
-        // Handle null pointer error
-        return;
-    }
-
-    tmotor->dreference_position = dposition;
-    motor_set_duty((int)pid_compute(tpid_ctrl, tmotor->dreference_position, tmotor->dposition));
 }

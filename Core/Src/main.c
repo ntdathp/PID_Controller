@@ -1,25 +1,24 @@
 /* USER CODE BEGIN Header */
 /**
- ******************************************************************************
- * @file           : main.c
- * @brief          : Main program body
- ******************************************************************************
- * @attention
- *
- * Copyright (c) 2023 STMicroelectronics.
- * All rights reserved.
- *
- * This software is licensed under terms that can be found in the LICENSE file
- * in the root directory of this software component.
- * If no LICENSE file comes with this software, it is provided AS-IS.
- *
- ******************************************************************************
- */
+  ******************************************************************************
+  * @file           : main.c
+  * @brief          : Main program body
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2024 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
+  */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "tim.h"
-#include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -27,8 +26,6 @@
 #include "stdio.h"
 #include "string.h"
 #include "../UserCode/Motor/motor.h"
-#include "../UserCode/PID/pid.h"
-#include "../UserCode/Serial/serial.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -38,6 +35,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -49,18 +47,6 @@
 
 /* USER CODE BEGIN PV */
 Motor_t tmotor;
-PID_CONTROL_t tpid;
-extern PROCESS_t tprocess;
-
-extern uint8_t urx_buff[MAX_LEN];
-extern uint8_t utx_buff[MAX_LEN];
-extern char scmd[4];
-extern float dkp;
-extern float dki;
-extern float dkd;
-extern float dset_point;
-
-int itick;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -102,14 +88,11 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_TIM4_Init();
-  MX_TIM3_Init();
   MX_TIM2_Init();
-  MX_USART3_UART_Init();
+  MX_TIM3_Init();
+  MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
   motor_init(&tmotor, PPR);
-  pid_init(&tpid, ZERO, ZERO, ZERO, PID_CONTROLLER_LIMIT_MAX, PID_CONTROLLER_LIMIT_MIN, SAMPLING_TIME);
-  serial_init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -119,27 +102,6 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    switch (tprocess)
-    {
-    case NONE:
-      break;
-    case SPID:
-      pid_tunning_set(&tpid, dkp, dki, dkd);
-      tprocess = NONE;
-      break;
-    case VTUN:
-      tmotor.dreference_velocity = dset_point;
-      break;
-    case PTUN:
-      tmotor.dreference_position = dset_point;
-      break;
-    case STOP:
-      motor_reset(&tmotor);
-      motor_set_duty(0);
-      pid_reset(&tpid);
-      tprocess = NONE;
-      break;
-    }
   }
   /* USER CODE END 3 */
 }
@@ -188,25 +150,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
   if (htim->Instance == INTERUPT_TIMER_INSTANCE)
   {
-    switch (tprocess)
-    {
-    case NONE:
-      break;
-    case SPID:
-      break;
-    case VTUN:
-      motor_read_encoder(&tmotor, &htim4);
-      motor_set_velocity(&tmotor, &tpid, dset_point);
-      serial_write_com(scmd, tmotor.dvelocity);
-      break;
-    case PTUN:
-      motor_read_encoder(&tmotor, &htim4);
-      motor_set_position(&tmotor, &tpid, dset_point);
-      serial_write_com(scmd, tmotor.dposition);
-      break;
-    case STOP:
-      break;
-    }
+	  // Adjust the duty cycle value in order to do your homework. (Between -99 to 99)
+	  //motor_set_duty(iduty);
+	  motor_read_encoder(&tmotor, &ECODER_TIMER);
   }
 }
 /* USER CODE END 4 */
