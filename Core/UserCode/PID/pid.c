@@ -3,10 +3,11 @@
 // reset PID params
 void pid_reset(PID_CONTROL_t *tpid_ctrl)
 {
-	 if (tpid_ctrl == NULL) {
-	        // Handle null pointer error
-	        return;
-	    }
+    if (tpid_ctrl == NULL)
+    {
+        // Handle null pointer error
+        return;
+    }
     tpid_ctrl->dlim_max_int = 0.0f;
     tpid_ctrl->dlim_min_int = 0.0f;
 
@@ -23,10 +24,11 @@ void pid_reset(PID_CONTROL_t *tpid_ctrl)
 // init PID
 void pid_init(PID_CONTROL_t *tpid_ctrl, float dkp, float dki, float dkd, float dlimit_max, float dlimit_min, float dts)
 {
-	if (tpid_ctrl == NULL || dkp < 0.0f || dki < 0.0f || dkd < 0.0f || dts < 0.0f || dlimit_max < dlimit_min) {
-	        // Handle invalid parameters or null pointer error
-	        return;
-	    }
+    if (tpid_ctrl == NULL || dkp < 0.0f || dki < 0.0f || dkd < 0.0f || dts < 0.0f || dlimit_max < dlimit_min)
+    {
+        // Handle invalid parameters or null pointer error
+        return;
+    }
     pid_reset(tpid_ctrl);
     tpid_ctrl->dkp = dkp;
     tpid_ctrl->dki = dki;
@@ -41,10 +43,11 @@ void pid_init(PID_CONTROL_t *tpid_ctrl, float dkp, float dki, float dkd, float d
 // set new PID params
 void pid_tunning_set(PID_CONTROL_t *tpid_ctrl, float dkp, float dki, float dkd)
 {
-	 if (tpid_ctrl == NULL || dkp < 0.0f || dki < 0.0f || dkd < 0.0f) {
-	        // Handle invalid parameters or null pointer error
-	        return;
-	    }
+    if (tpid_ctrl == NULL || dkp < 0.0f || dki < 0.0f || dkd < 0.0f)
+    {
+        // Handle invalid parameters or null pointer error
+        return;
+    }
 
     tpid_ctrl->dkp = dkp;
     tpid_ctrl->dki = dki;
@@ -54,10 +57,11 @@ void pid_tunning_set(PID_CONTROL_t *tpid_ctrl, float dkp, float dki, float dkd)
 // Compute PID Controllers
 float pid_compute(PID_CONTROL_t *tpid_ctrl, float dcmd_value, float dact_value)
 {
-	   if (tpid_ctrl == NULL) {
-	        // Handle null pointer error
-	        return 0.0f; // or any default value indicating an error
-	    }
+    if (tpid_ctrl == NULL)
+    {
+        // Handle null pointer error
+        return 0.0f; // or any default value indicating an error
+    }
 
     // Calculate error value
     tpid_ctrl->derror = dcmd_value - dact_value;

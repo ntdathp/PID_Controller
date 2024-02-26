@@ -11,14 +11,14 @@
 #define MOTOR1_FORWARD_DUTY_CYCLE_REGISTER htim2.Instance->CCR1
 #define MOTOR1_BACKWARD_DUTY_CYCLE_REGISTER htim2.Instance->CCR2
 
-#define PPR 1000
+#define PPR 1500
 
 #define MAX_LEN 100
 
 #define UART_COM huart3
 #define UART_COM_INSTANCE huart3.Instance
 
-#define PID_CONTROLLER_LIMIT_MAX htim2.Init.Period
+#define PID_CONTROLLER_LIMIT_MAX (htim2.Init.Period)
 #define PID_CONTROLLER_LIMIT_MIN -(float)(htim2.Init.Period)
 
 #define INTERUPT_TIMER htim3

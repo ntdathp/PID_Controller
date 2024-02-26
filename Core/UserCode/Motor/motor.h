@@ -9,12 +9,12 @@
 
 typedef struct
 {
-	uint32_t ipulse_per_round;
-	int32_t icounter;
-	float dvelocity;
-	float dposition;
-	float dreference_velocity;
-	float dreference_position;
+  uint32_t ipulse_per_round;
+  int16_t icounter;
+  float dvelocity;
+  float dposition;
+  float dreference_velocity;
+  float dreference_position;
 } Motor_t;
 
 void motor_init(Motor_t *tmotor, uint32_t ipulse);

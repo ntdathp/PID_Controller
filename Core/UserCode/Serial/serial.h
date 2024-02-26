@@ -12,12 +12,14 @@
 
 typedef enum
 {
-    NONE = 0,
-    SPID,
-    VTUN,
-    PTUN,
-    STOP,
+  NONE = 0,
+  SPID,
+  VTUN,
+  PTUN,
+  STOP,
 } PROCESS_t;
+
+
 
 void serial_init(void);
 void serial_write_com(char *ucmd, float dvalue);

@@ -7,33 +7,33 @@
 // control PID Structure
 typedef struct
 {
-    // Controller gains
-    float dkp;
-    float dki;
-    float dkd;
+  // Controller gains
+  float dkp;
+  float dki;
+  float dkd;
 
-    // Output limits
-    float dlim_min;
-    float dlim_max;
+  // Output limits
+  float dlim_min;
+  float dlim_max;
 
-    // Intergral limits
-    float dlim_max_int;
-    float dlim_min_int;
+  // Intergral limits
+  float dlim_max_int;
+  float dlim_min_int;
 
-    // Sampling time (in seconds)
-    float dts;
+  // Sampling time (in seconds)
+  float dts;
 
-    // Controller memory
-    float derror;
-    float dpre_error;
+  // Controller memory
+  float derror;
+  float dpre_error;
 
-    // P part, I part, D part
-    float dproportional;
-    float dintergral;
-    float dderivative;
+  // P part, I part, D part
+  float dproportional;
+  float dintergral;
+  float dderivative;
 
-    // Controller output
-    float dresult;
+  // Controller output
+  float dresult;
 
 } PID_CONTROL_t;
 

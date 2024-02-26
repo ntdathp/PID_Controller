@@ -50,7 +50,7 @@
 /* USER CODE BEGIN PV */
 Motor_t tmotor;
 PID_CONTROL_t tpid;
-PROCESS_t tprocess = 0;
+extern PROCESS_t tprocess;
 
 extern uint8_t urx_buff[MAX_LEN];
 extern uint8_t utx_buff[MAX_LEN];
@@ -119,26 +119,6 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    if (!strcmp(scmd, "SPID"))
-    {
-      tprocess = SPID;
-    }
-    else if (!strcmp(scmd, "VTUN"))
-    {
-      tprocess = VTUN;
-    }
-    else if (!strcmp(scmd, "PTUN"))
-    {
-      tprocess = PTUN;
-    }
-    else if (!strcmp(scmd, "STOP"))
-    {
-      tprocess = STOP;
-    }
-    else
-    {
-      tprocess = NONE;
-    }
     switch (tprocess)
     {
     case NONE:

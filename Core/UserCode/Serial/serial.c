@@ -9,6 +9,7 @@ float dkd;
 float dset_point;
 uint8_t urx_index = 0;
 uint8_t urx = 0;
+PROCESS_t tprocess;
 
 void serial_init(void)
 {
@@ -16,10 +17,11 @@ void serial_init(void)
 }
 void serial_write_com(char *scmd, float dvalue)
 {
-	 if (scmd == NULL) {
-	        // Handle the case where scmd is nullptr
-	        return;
-	    }
+	if (scmd == NULL)
+	{
+		// Handle the case where scmd is nullptr
+		return;
+	}
 	char str[MAX_LEN];
 	strcpy(str, scmd);
 
@@ -36,15 +38,36 @@ void serial_write_com(char *scmd, float dvalue)
 }
 void serial_handle(uint8_t *ubuff)
 {
-	 if (ubuff == NULL) {
-	        // Handle the case where ubuff is nullptr
-	        return;
-	    }
+	if (ubuff == NULL)
+	{
+		// Handle the case where ubuff is nullptr
+		return;
+	}
 	char str[MAX_LEN];
 	snprintf(str, sizeof(str), "%s", ubuff);
 	sscanf(str, "%s %f %f %f %f", scmd, &dkp, &dki, &dkd, &dset_point);
 	HAL_UART_Transmit(&UART_COM, ubuff, urx_index, HAL_MAX_DELAY);
 	urx_index = 0;
+	  if (!strcmp(scmd, "SPID"))
+	    {
+	      tprocess = SPID;
+	    }
+	    else if (!strcmp(scmd, "VTUN"))
+	    {
+	      tprocess = VTUN;
+	    }
+	    else if (!strcmp(scmd, "PTUN"))
+	    {
+	      tprocess = PTUN;
+	    }
+	    else if (!strcmp(scmd, "STOP"))
+	    {
+	      tprocess = STOP;
+	    }
+	    else
+	    {
+	      tprocess = NONE;
+	    }
 }
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
