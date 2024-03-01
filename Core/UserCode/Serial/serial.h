@@ -24,5 +24,5 @@ typedef enum
 void serial_init(void);
 void serial_write_com(char *ucmd, float dvalue);
 void serial_handle(uint8_t *ubuff);
-
+bool StrCompare(char *pBuff, uint8_t *pSample, uint8_t nSize);
 #endif /* INC_SERIAL_H_ */

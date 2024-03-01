@@ -4,14 +4,14 @@
 #include "tim.h"
 #define SAMPLING_TIME 0.01f // In second
 #define NUMBER_OF_DEGREES_ON_A_CIRCLE 360.0f
-#define THOUSAND 1000
+#define THOUSAND 1000 
 #define ZERO 0.0f
 
 #define MOTOR1_COUNTER_REGISTER htim4.Instance->CNT
 #define MOTOR1_FORWARD_DUTY_CYCLE_REGISTER htim2.Instance->CCR1
 #define MOTOR1_BACKWARD_DUTY_CYCLE_REGISTER htim2.Instance->CCR2
 
-#define PPR 1500
+#define PPR 1500 // Modified to fit the motor's encoder.
 
 #define MAX_LEN 100
 

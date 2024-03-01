@@ -195,12 +195,12 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     case SPID:
       break;
     case VTUN:
-      motor_read_encoder(&tmotor, &htim4);
+      motor_read_encoder(&tmotor, &ECODER_TIMER);
       motor_set_velocity(&tmotor, &tpid, dset_point);
       serial_write_com(scmd, tmotor.dvelocity);
       break;
     case PTUN:
-      motor_read_encoder(&tmotor, &htim4);
+      motor_read_encoder(&tmotor, &ECODER_TIMER);
       motor_set_position(&tmotor, &tpid, dset_point);
       serial_write_com(scmd, tmotor.dposition);
       break;
