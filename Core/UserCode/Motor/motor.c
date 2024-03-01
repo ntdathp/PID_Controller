@@ -39,7 +39,7 @@ void motor_set_duty(int32_t iduty)
     else
     {
         MOTOR1_FORWARD_DUTY_CYCLE_REGISTER = 0;
-        MOTOR1_BACKWARD_DUTY_CYCLE_REGISTER = iduty;
+        MOTOR1_BACKWARD_DUTY_CYCLE_REGISTER = - (iduty);
     }
 }
 void motor_read_encoder(Motor_t *tmotor, TIM_HandleTypeDef *htim)
