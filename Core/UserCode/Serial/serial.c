@@ -34,7 +34,12 @@ void serial_write_com(char *scmd, float dvalue)
 	{
 		utx_buff[i] = (uint8_t)str[i];
 	}
-	HAL_UART_Transmit(&UART_COM, utx_buff, sizeof(utx_buff), HAL_MAX_DELAY);
+
+	 int count = 0;
+	 while (str[count] != '\0' && str[count] != '\n') {
+	        count++;
+	    }
+	HAL_UART_Transmit(&UART_COM, utx_buff, (count+1), HAL_MAX_DELAY);
 }
 void serial_handle(uint8_t *ubuff)
 {
@@ -48,27 +53,28 @@ void serial_handle(uint8_t *ubuff)
 	sscanf(str, "%s %f %f %f %f", scmd, &dkp, &dki, &dkd, &dset_point);
 	HAL_UART_Transmit(&UART_COM, ubuff, urx_index, HAL_MAX_DELAY);
 	urx_index = 0;
-	if (StrCompare(scmd, (uint8_t*)"SPID", 4))
-	{
-	    tprocess = SPID;
-	}
-	else if (StrCompare(scmd, (uint8_t*)"VTUN", 4))
-	{
-	    tprocess = VTUN;
-	}
-	else if (StrCompare(scmd, (uint8_t*)"PTUN", 4))
-	{
-	    tprocess = PTUN;
-	}
-	 else if (StrCompare(scmd, (uint8_t*)"STOP", 4))
-	{
-	    tprocess = STOP;
-	}
-	 else
-	{
-	    tprocess = NONE;
-	 }
+	  if (StrCompare(scmd, (uint8_t*)"SPID", 4))
+	    {
+	      tprocess = SPID;
+	    }
+	    else if (StrCompare(scmd, (uint8_t*)"VTUN", 4))
+	    {
+	      tprocess = VTUN;
+	    }
+	    else if (StrCompare(scmd, (uint8_t*)"PTUN", 4))
+	    {
+	      tprocess = PTUN;
+	    }
+	    else if (StrCompare(scmd, (uint8_t*)"STOP", 4))
+	    {
+	      tprocess = STOP;
+	    }
+	    else
+	    {
+	      tprocess = NONE;
+	    }
 }
+
 bool StrCompare(char *pBuff, uint8_t *pSample, uint8_t nSize)
 {
     for (int i = 0; i < nSize; i++)

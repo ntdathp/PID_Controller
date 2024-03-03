@@ -24,7 +24,6 @@ void motor_reset(Motor_t *tmotor)
         // Handle null pointer error
         return;
     }
-
     tmotor->icounter = 0;
     tmotor->dvelocity = 0.0f;
     tmotor->dposition = 0.0f;
@@ -41,7 +40,7 @@ void motor_set_duty(int32_t iduty)
     else
     {
         MOTOR1_FORWARD_DUTY_CYCLE_REGISTER = 0;
-        MOTOR1_BACKWARD_DUTY_CYCLE_REGISTER = iduty;
+        MOTOR1_BACKWARD_DUTY_CYCLE_REGISTER = -iduty;
     }
 }
 void motor_read_encoder(Motor_t *tmotor, TIM_HandleTypeDef *htim)
@@ -51,10 +50,17 @@ void motor_read_encoder(Motor_t *tmotor, TIM_HandleTypeDef *htim)
         // Handle null pointer error
         return;
     }
-
     tmotor->icounter = htim->Instance->CNT;
-    tmotor->dvelocity = (float)tmotor->icounter / (float)tmotor->ipulse_per_round * NUMBER_OF_DEGREES_ON_A_CIRCLE / SAMPLING_TIME;
-    tmotor->dposition += (float)tmotor->icounter / (float)tmotor->ipulse_per_round * NUMBER_OF_DEGREES_ON_A_CIRCLE;
+    tmotor->ifiltered_counter = lpf_trap(tmotor->icounter, tmotor->ipre_counter, tmotor->ipre_filtered_counter, CUT_OFF_FREQUENCY, SAMPLING_TIME);
+    tmotor->dvelocity = (float)tmotor->ifiltered_counter / (float)tmotor->ipulse_per_round * NUMBER_OF_DEGREES_ON_A_CIRCLE / SAMPLING_TIME;
+    if(fabs(tmotor->dvelocity) > MAX_VELOCITY)
+    {
+    	tmotor->dvelocity = 0.0f;
+    }
+    tmotor->dposition += (float)tmotor->ifiltered_counter / (float)tmotor->ipulse_per_round * NUMBER_OF_DEGREES_ON_A_CIRCLE;
+
+    tmotor->ipre_counter = tmotor->icounter;
+    tmotor->ipre_filtered_counter = tmotor->ifiltered_counter;
     htim->Instance->CNT = 0;
 }
 void motor_set_velocity(Motor_t *tmotor, PID_CONTROL_t *tpid_ctrl, float dvelocity)

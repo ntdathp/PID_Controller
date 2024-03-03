@@ -3,6 +3,7 @@
 
 #include "stdint.h"
 #include <stdlib.h>
+#include "../user_define.h"
 
 // control PID Structure
 typedef struct
@@ -26,6 +27,8 @@ typedef struct
   // Controller memory
   float derror;
   float dpre_error;
+  float dfiltered_error;
+  float dpre_filtered_error;
 
   // P part, I part, D part
   float dproportional;
@@ -40,6 +43,7 @@ typedef struct
 void pid_reset(PID_CONTROL_t *tpid_ctrl);
 void pid_init(PID_CONTROL_t *tpid_ctrl, float dkp, float dki, float dkd, float dlimit_max, float dlimit_min, float dts);
 void pid_tunning_set(PID_CONTROL_t *tpid_ctrl, float dkp, float dki, float dkd);
+float lpf_trap(float draw_signal_value, float dpre_raw_signal_value, float dpre_filtered_value, float dfc, float dts);
 float pid_compute(PID_CONTROL_t *tpid_ctrl, float dcmd_value, float dact_value);
 
 #endif /* INC_PID_H_ */

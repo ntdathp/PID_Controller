@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <stdlib.h>
+#include <math.h>
 #include "../PID/pid.h"
 #include "../user_define.h"
 #include "tim.h"
@@ -11,6 +12,9 @@ typedef struct
 {
   uint32_t ipulse_per_round;
   int16_t icounter;
+  int16_t ipre_counter;
+  int16_t ifiltered_counter;
+  int16_t ipre_filtered_counter;
   float dvelocity;
   float dposition;
   float dreference_velocity;
