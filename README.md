@@ -12,7 +12,7 @@ Using Trappizoidal Rules in order to convert the PID's transfer function from S 
 
 Adding anti-windup for I part and low-pass filter for D part.
 
-#About the GUI
+# About the GUI
 Plotting with QTCustomPlot
 
 Auto detect COM Port and baudrate
