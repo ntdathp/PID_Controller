@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/resource/img">
+        <file>rsz_6_pif.png</file>
+    </qresource>
+</RCC>
