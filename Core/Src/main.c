@@ -59,8 +59,6 @@ extern float dkp;
 extern float dki;
 extern float dkd;
 extern float dset_point;
-
-int itick;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/

@@ -19,8 +19,6 @@ typedef enum
   STOP,
 } PROCESS_t;
 
-
-
 void serial_init(void);
 void serial_write_com(char *ucmd, float dvalue);
 void serial_handle(uint8_t *ubuff);

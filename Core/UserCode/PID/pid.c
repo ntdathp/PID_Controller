@@ -129,13 +129,6 @@ float pid_compute(PID_CONTROL_t *tpid_ctrl, float dcmd_value, float dact_value)
 
     tpid_ctrl->dderivative = 2.0f * tpid_ctrl->dkd / tpid_ctrl->dts * (tpid_ctrl->dfiltered_error - tpid_ctrl->dpre_filtered_error) - (tpid_ctrl->dderivative);
 
-    if (tpid_ctrl->dderivative > 20.0f) {
-        tpid_ctrl->dderivative = 20.0f;
-    }
-    else if (tpid_ctrl->dderivative < -20.0f) {
-        tpid_ctrl->dderivative = -20.0f;
-    }
-
     // Compute output and apply limits
     tpid_ctrl->dresult = tpid_ctrl->dproportional + tpid_ctrl->dintergral + tpid_ctrl->dderivative;
 
