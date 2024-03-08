@@ -8,7 +8,7 @@ Digital PID Controller for DC Motor (velocity and position) with incremental enc
 I used the DC Motor GA37-520 for this project.
 
 # About the algorithm
-Using Trappizoidal Rules in order to Z domain.
+Using Trappizoidal Rules in order to convert the PID's transfer function from S domain to Z domain.
 
 Adding anti-windup for I part and low-pass filter for D part.
 
